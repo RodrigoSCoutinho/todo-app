@@ -1,12 +1,11 @@
+import 'dart:convert';
+
 import 'package:frontend/models/task.dart';
 import 'package:http/http.dart' as http;
-
-import 'dart:convert';
 
 import 'global.dart';
 
 class DatabaseServices {
-
   static Future<Task> addTask(String title) async {
     Map data = {
       "title": title,
@@ -19,9 +18,7 @@ class DatabaseServices {
       headers: headers,
       body: body,
     );
-
-    // print(response.body);
-    
+    print(response.body);
     Map responseMap = jsonDecode(response.body);
     Task task = Task.fromMap(responseMap);
 
@@ -34,12 +31,9 @@ class DatabaseServices {
       url,
       headers: headers,
     );
-
-    // print(response.body);
-
+    print(response.body);
     List responseList = jsonDecode(response.body);
     List<Task> tasks = [];
-    
     for (Map taskMap in responseList) {
       Task task = Task.fromMap(taskMap);
       tasks.add(task);
@@ -48,24 +42,22 @@ class DatabaseServices {
   }
 
   static Future<http.Response> updateTask(int id) async {
-     var url = Uri.parse(baseURL + '/update/$id');
-       http.Response response = await http.put(
-       url,
-       headers: headers,
+    var url = Uri.parse(baseURL + '/update/$id');
+    http.Response response = await http.put(
+      url,
+      headers: headers,
     );
-
-    // print(response.body);
+    print(response.body);
     return response;
   }
 
   static Future<http.Response> deleteTask(int id) async {
-      var url = Uri.parse(baseURL + '/delete/$id');
-      http.Response response = await http.delete(
-        url,
-        headers: headers,
+    var url = Uri.parse(baseURL + '/delete/$id');
+    http.Response response = await http.delete(
+      url,
+      headers: headers,
     );
-  
-    // print(response.body);
+    print(response.body);
     return response;
   }
 }
